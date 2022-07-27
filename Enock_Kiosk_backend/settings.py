@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'phonenumber_field',
     'core.apps.CoreConfig',
     'accounts',
 ]
@@ -131,3 +132,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# Auth user model
+AUTH_USER_MODEL = 'accounts.User'
