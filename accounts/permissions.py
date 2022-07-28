@@ -4,6 +4,10 @@ from config_master import ROLE_SUPER_ADMIN
 
 
 class UserPermissions(permissions.BasePermission):
+    """
+    This custom permission class is used to determine if a user has permission to perform various actions of a user
+    object like create, update, delete
+    """
     edit_methods = ("PUT", "PATCH")
     model_change_methods = ("POST", "PUT", "PATCH", "DELETE")
 

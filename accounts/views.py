@@ -9,7 +9,7 @@ from accounts.accounts_handler import AccountsHandler
 from accounts.forms import UserCreationForm
 from accounts.permissions import UserPermissions
 from accounts.serializers import UserSerializer
-from core.schema_genarator import CreateSchema
+from core.schema_genarator import CreateSchema, ListSchema
 
 
 class UserList(generics.ListAPIView):
@@ -31,7 +31,7 @@ class UserDetail(generics.RetrieveAPIView):
 
 
 class CreateUserView(APIView):
-    permission_classes = [UserPermissions, ]
+    permission_classes = [UserPermissions, IsAuthenticated]
     schema = CreateSchema(UserCreationForm()).create_schema()
 
     def post(self, request):
@@ -40,8 +40,6 @@ class CreateUserView(APIView):
         :param request:
         :return:
         """
-        import pdb;
-        pdb.set_trace()
         form = UserCreationForm(request.data)
         if form.is_valid():
             form.save()
@@ -50,16 +48,23 @@ class CreateUserView(APIView):
 
 
 class UserViewSet(ViewSet):
-    permission_classes = [UserPermissions, ]
-    schema = CreateSchema(UserCreationForm()).create_schema()
+    permission_classes = [UserPermissions, IsAuthenticated]
+    schemas = {
+        'create': CreateSchema(UserCreationForm()).create_schema(),
+        'list': ListSchema(parameters=[]).create_schema(),
+        'retrieve': ListSchema(
+            parameters=[{'name': 'id', 'help_text': 'A unique integer value identifying this user.'}]).create_schema(),
+    }
+    serializer_class = UserSerializer
     queryset = AccountsHandler().get_all_users()
 
     def list(self, request):
         """
         This API endpoint lists all users.
-        :param request:
-        :return:
+        :param request: The request object
+        :return: A list of users
         """
+        self.schema = ListSchema(parameters=[]).create_schema()
         serializer = UserSerializer(self.queryset, many=True)
         return Response(serializer.data)
 
@@ -87,3 +92,6 @@ class UserViewSet(ViewSet):
             form.save()
             return Response(form.data, status=status.HTTP_201_CREATED)
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, pk=None):
+        pass

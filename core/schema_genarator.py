@@ -11,7 +11,7 @@ class CreateSchema:
     def __init__(self, form):
         """
         This method initializes the class
-        :param form:
+        :param form: A model form object
         """
         self.form = form
         self.schema = None
@@ -31,4 +31,45 @@ class CreateSchema:
         return ManualSchema(
             fields=fields,
             encoding="application/json",
+            description="The request body should be a 'application/json' encoded object, containing the following "
+                        "items.",
+
+        )
+
+
+class ListSchema:
+    """
+    This creates a schema for a list view
+    """
+
+    def __init__(self, parameters: list):
+        """
+        This method creates a list schema for a list view
+        :param parameters: A list of dictionaries required parameters.
+                                    Format - [{'name': 'parameter_name', 'help_text': 'string',
+                                    'required': The required status}]
+        """
+        self.parameters = parameters
+
+    def create_schema(self):
+        """
+        This method loops through all the passed parameters and creates a schema
+        :return:
+        """
+        fields = []
+        for parameter in self.parameters:
+            fields.append(coreapi.Field(
+                name=parameter.get('name'),
+                required=parameter.get('required'),
+                location='form',
+                schema=coreschema.String(
+                    title=str(parameter.get('name').replace('_', ' ').title()),
+                    description=str(parameter.get('help_text')),
+                ),
+            ))
+        return ManualSchema(
+            fields=fields,
+            encoding="application/json",
+            description="The following parameters should be included in the URL path.",
+
         )
