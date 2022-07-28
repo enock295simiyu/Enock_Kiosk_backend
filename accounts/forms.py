@@ -6,6 +6,10 @@ from accounts.models import User
 class UserCreationForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['role'].required = True
+
     class Meta:
         model = User
         fields = (

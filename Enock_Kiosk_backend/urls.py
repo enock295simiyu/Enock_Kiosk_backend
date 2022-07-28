@@ -40,7 +40,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('accounts/', include('accounts.urls')),
-    path('docs/', include_docs_urls(title='Todo Api')),
+    path('docs/', include_docs_urls(title='Kiosk Backend API Documentation')),
 ]
 
 if settings.DEBUG:

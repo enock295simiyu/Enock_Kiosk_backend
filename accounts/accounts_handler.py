@@ -15,3 +15,11 @@ class AccountsHandler:
         :return:
         """
         return self.accounts_manager.get_all_users()
+
+    def get_user_by_id(self, user_id):
+        """
+        This method returns the user with the given id
+        :param user_id: The id of the user
+        :return: The user object or None if not found
+        """
+        return self.accounts_manager.get_user_by_id(user_id)

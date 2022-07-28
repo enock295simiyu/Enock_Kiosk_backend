@@ -33,3 +33,14 @@ class AccountsManager:
         :return:
         """
         return User.objects.all()
+
+    def get_user_by_id(self, user_id):
+        """
+        This method returns the user with the given id
+        :param user_id: The id of the user
+        :return: The user object or None if not found
+        """
+        users = User.objects.filter(id=user_id)
+        if users:
+            return users.first()
+        return None
