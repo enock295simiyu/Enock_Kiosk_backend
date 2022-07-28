@@ -8,6 +8,9 @@ django = "*"
 djangorestframework = "*"
 psycopg2 = "*"
 django-phonenumber-field = { extras = ["phonenumbers"], version = "*" }
+coreapi = "*"
+drf-yasg = { extras = ["validation"], version = "*" }
+django-rest-swagger = "*"
 
 [dev-packages]
 

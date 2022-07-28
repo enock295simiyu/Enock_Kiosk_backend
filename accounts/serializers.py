@@ -10,3 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
             'id', 'username', 'first_name', 'last_name', 'role', 'phone_number', 'email', 'is_staff', 'phone_number',
             'is_phone_verified', 'sub_domain', 'timezone', 'country', 'currency_symbol', 'notification_method',
             'enable_calendar_module')
+
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
